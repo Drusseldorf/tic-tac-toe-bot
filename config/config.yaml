@@ -1,0 +1,9 @@
+game_settings:
+  victory_condition: 3
+  game_board_default_size: 3
+  default_cells:
+    cross_emoji: ❌
+    zero_emoji: ⭕️
+    empty_emoji: '         '
+db_settings:
+  url: sqlite:///../app.db
