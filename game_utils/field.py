@@ -1,5 +1,5 @@
 from config.basic_config import settings
-from game_entities.cells import Cell
+from game_utils.cells import Cell
 import json
 
 

@@ -1,6 +1,6 @@
 game_settings:
-  victory_condition: 3
-  game_board_default_size: 3
+  victory_condition: 4
+  game_board_default_size: 8
   default_cells:
     cross_emoji: ❌
     zero_emoji: ⭕️

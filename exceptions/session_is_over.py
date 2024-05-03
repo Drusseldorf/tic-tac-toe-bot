@@ -1,0 +1,2 @@
+class SessionIsOver(Exception):
+    pass

@@ -1,4 +1,4 @@
-from game_entities.cells import Cell
+from game_utils.cells import Cell
 from config.basic_config import settings
 
 
@@ -10,7 +10,7 @@ class Mapping:
                 Cell.ZERO: settings.game_settings.default_cells.zero_emoji,
                 Cell.EMPTY: settings.game_settings.default_cells.empty_emoji
             }
-        self.__defoult_mapping = dict_to_map
+        self._defoult_mapping = dict_to_map
 
     def cell_into_emoji(self, cell: Cell) -> str:
-        return self.__defoult_mapping[cell]
+        return self._defoult_mapping[cell]

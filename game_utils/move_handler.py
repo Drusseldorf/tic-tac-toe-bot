@@ -1,6 +1,6 @@
-from game_entities.cells import Cell
+from game_utils.cells import Cell
 from exceptions.illegal_move import IllegalMove
-from game_entities.field import GameBoard
+from game_utils.field import GameBoard
 
 
 class Move:
