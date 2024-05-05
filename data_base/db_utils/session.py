@@ -3,7 +3,6 @@ from data_base.tables import GameSession
 from uuid import uuid4
 from contextlib import contextmanager
 from game_utils.field import GameBoard
-from exceptions.session_is_over import SessionIsOver
 
 
 class Session:
@@ -31,45 +30,20 @@ class Session:
             return session_id
 
     @staticmethod
-    def _get_game_session(session_id):
+    def get_game_session(session_id) -> GameSession:
         with Session._get_db_session() as db:
             session = db.query(GameSession).filter(GameSession.game_session == session_id).first()
-            if not session:
-                raise SessionIsOver
             return session
 
     @staticmethod
-    def update_board(session_id, game_board: str):
+    def update_session(game_session: GameSession):
         with Session._get_db_session() as db:
-            game_session = Session._get_game_session(session_id)
-            game_session.game_board = game_board
             db.add(game_session)
             db.commit()
             db.refresh(game_session)
 
     @staticmethod
-    def get_board(session_id) -> str:
-        game_session = Session._get_game_session(session_id)
-        return game_session.game_board
-
-    @staticmethod
-    def delete_session(session_id):
+    def delete_session(game_session: GameSession):
         with Session._get_db_session() as db:
-            game_session = Session._get_game_session(session_id)
             db.delete(game_session)
             db.commit()
-
-    @staticmethod
-    def get_last_message(session_id):
-        with Session._get_db_session():
-            game_session = Session._get_game_session(session_id)
-            return game_session.last_message_id_user_one
-
-    @staticmethod
-    def set_last_message(session_id, message_id):
-        with Session._get_db_session() as db:
-            game_session = Session._get_game_session(session_id)
-            game_session.last_message_id_user_one = message_id
-            db.add(game_session)
-            db.commit()
-            db.refresh(game_session)

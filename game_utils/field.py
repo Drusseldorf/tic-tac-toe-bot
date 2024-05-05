@@ -27,4 +27,3 @@ class GameBoard:
             new_row = [cell.name for cell in row]
             new_board.append(new_row)
         return json.dumps(new_board)
-
