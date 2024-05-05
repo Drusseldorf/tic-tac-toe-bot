@@ -1,3 +1,4 @@
 pydantic==2.7.1
 telebot==0.0.5
 SQLAlchemy==2.0.29
+schedule==1.2.1

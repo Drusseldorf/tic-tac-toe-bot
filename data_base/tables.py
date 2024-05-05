@@ -11,6 +11,7 @@ class GameSession(Base):
     game_board = Column(String)
     last_message_id_user_one = Column(String)
     last_message_id_user_two = Column(String)
+    last_updated = Column(String)
 
 
 Base.metadata.create_all(bind=engine)

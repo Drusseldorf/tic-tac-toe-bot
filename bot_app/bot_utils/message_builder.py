@@ -1,6 +1,6 @@
 from telebot import types
 from bot_app.bot_utils.cell_image_mapping import Mapping
-from config.text_templates.russian import Text
+from config.text_templates.russian import MoveTurnText
 from game_utils.field import GameBoard
 from game_utils.game_state_handler import State, GameState
 from game_utils.make_move import Move
@@ -57,7 +57,7 @@ class MessageBuilder:
         body = {
             'chat_id': chat_id,
             'reply_markup': self._prepare_buttons(),
-            'text': f'{getattr(Text, self._text_attrbt())} {self._text_cell_or_draw()}'
+            'text': f'{getattr(MoveTurnText, self._text_attrbt())} {self._text_cell_or_draw()}'
         }
         if last_message_id:
             body['message_id'] = last_message_id

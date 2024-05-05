@@ -37,6 +37,8 @@ class GameSettings(BaseModel):
     victory_condition: VictoryConditions
     game_board_default_size: int
     default_cells: DefaultCells
+    session_timeout: int
+    clean_sessions_every_seconds: int
 
 
 class MainSettings(YamlBaseSettings):
