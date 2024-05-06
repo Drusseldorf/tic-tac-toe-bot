@@ -1,6 +1,4 @@
 from enum import Enum
-
-from data_base.db_utils.session import Session
 from data_base.tables import GameSession
 from exceptions.illegal_move import IllegalMove
 from game_utils.make_move import Move

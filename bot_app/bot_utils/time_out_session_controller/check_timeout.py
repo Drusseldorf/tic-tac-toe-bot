@@ -1,18 +1,18 @@
 import datetime
 import threading
 import time
-
 from data_base.db_utils.session import Session
 from config.basic_config import settings
 from datetime import timedelta
 import schedule
 
-time_out = timedelta(minutes=settings.game_settings.session_timeout)
-period_to_start_worker = settings.game_settings.clean_sessions_every_seconds
+
+time_out = timedelta(minutes=settings.game_settings.session_expires_in)
+period_to_start_worker = settings.game_settings.start_expires_session_worker_period
 
 
 def call_db():
-    print(datetime.datetime.now(), 'Вызван запланированный метод, идем в бд')
+    print(datetime.datetime.now(), 'expires session worker was called')
     Session.delete_sessions_older_than(time_out)
 
 

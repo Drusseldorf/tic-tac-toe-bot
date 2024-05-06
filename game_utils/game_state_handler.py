@@ -36,6 +36,6 @@ class GameState:
 
         else:
             winner = self._winner_checker.got_winner(self._game_board)
-            self._state = State.CROSS_WON if winner == Cell.CROSS else State.ZERO_WON
+            self._state = State.CROSS_WON if winner is Cell.CROSS else State.ZERO_WON
 
         return self._state

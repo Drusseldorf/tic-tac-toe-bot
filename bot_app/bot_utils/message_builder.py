@@ -7,7 +7,8 @@ from game_utils.make_move import Move
 
 
 class MessageBuilder:
-    def __init__(self, last_message, game_board, session_id):
+    def __init__(self, last_message, game_board, session_id, chat_id):
+        self._chat_id = chat_id
         self._session_id = session_id
         self._game_board = game_board
         self._last_message = last_message
@@ -35,9 +36,9 @@ class MessageBuilder:
 
     def _text_attrbt(self):
         game_state = GameState(self._game_board).state
-        if game_state == State.IN_PROGRESS:
+        if game_state is State.IN_PROGRESS:
             return 'NEXT_TURN'
-        elif game_state == State.DRAW:
+        elif game_state is State.DRAW:
             return 'DRAW'
         else:
             return 'WON'
@@ -45,17 +46,17 @@ class MessageBuilder:
     def _text_cell_or_draw(self):
         move = Move(self._game_board)
         game_state = GameState(self._game_board).state
-        if game_state == State.IN_PROGRESS:
+        if game_state is State.IN_PROGRESS:
             return Mapping.cell_into_emoji(move.whos_turn())
-        elif game_state == State.DRAW:
+        elif game_state is State.DRAW:
             return ''
         else:
             return Mapping.cell_into_emoji(move.last_turn())
 
-    def message_body(self, chat_id) -> dict:
+    def message_body(self) -> dict:
         last_message_id = self._last_message
         body = {
-            'chat_id': chat_id,
+            'chat_id': self._chat_id,
             'reply_markup': self._prepare_buttons(),
             'text': f'{getattr(MoveTurnText, self._text_attrbt())} {self._text_cell_or_draw()}'
         }

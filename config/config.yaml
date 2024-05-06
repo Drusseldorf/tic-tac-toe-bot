@@ -1,8 +1,8 @@
 game_settings:
   victory_condition: 3
   game_board_default_size: 3
-  session_timeout: 1
-  clean_sessions_every_seconds: 5
+  session_expires_in: 3
+  start_expires_session_worker_period: 180
   default_cells:
     cross_emoji: ❌
     zero_emoji: ⭕️
