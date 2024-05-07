@@ -1,5 +1,5 @@
 from data_base.db_engine import Base, engine
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 
 
 class GameSession(Base):
@@ -13,14 +13,16 @@ class GameSession(Base):
     game_board = Column(String)
     last_message_id_user_one = Column(String)
     last_message_id_user_two = Column(String)
-    is_online = Column(String)
+    is_online = Column(Boolean)
+    user_one_cell = Column(String)
+    user_two_cell = Column(String)
     last_updated = Column(String)
 
 
 class LinkedUsers(Base):
     __tablename__ = 'linked_users'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String)
+    user_id = Column(String, unique=True, index=True)
     linked_users_id = Column(String)
 
 

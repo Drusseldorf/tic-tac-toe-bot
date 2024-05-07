@@ -8,8 +8,8 @@ class Move:
     def __init__(self, game_board: str):
         self.game_board = GameBoard.turn_into_list(game_board)
 
-    def __is_possible(self, pos_x, pos_y) -> bool:
-        return self.game_board[pos_x][pos_y] == Cell.EMPTY
+    def _is_possible(self, pos_x, pos_y, cell_trying_to_move: Cell) -> bool:
+        return self.game_board[pos_x][pos_y] is Cell.EMPTY and cell_trying_to_move is self.whos_turn()
 
     def whos_turn(self) -> Cell:
         count_entities = 0
@@ -31,9 +31,9 @@ class Move:
 
         return Cell.CROSS if count_entities % 2 != 0 else Cell.ZERO
 
-    def make(self, pos_x, pos_y):
+    def make(self, pos_x, pos_y, cell_trying_to_move: Cell):
         x, y = int(pos_x), int(pos_y)
-        if not self.__is_possible(x, y):
+        if not self._is_possible(x, y, cell_trying_to_move):
             raise IllegalMove
         else:
             self.game_board[x][y] = self.whos_turn()

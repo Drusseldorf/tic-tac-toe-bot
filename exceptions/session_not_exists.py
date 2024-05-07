@@ -1,0 +1,2 @@
+class SessionDoesntExist(Exception):
+    pass

@@ -8,4 +8,4 @@ game_settings:
     zero_emoji: ⭕️
     empty_emoji: '         '
 db_settings:
-  url: sqlite:///../app.db
+  url: sqlite:///./app.db

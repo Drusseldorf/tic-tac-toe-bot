@@ -1,3 +1,5 @@
+from telebot.apihelper import ApiTelegramException
+
 from bot_app import bot
 from config.text_templates.russian import NoSessionText
 
@@ -8,4 +10,7 @@ class NoSessionHandler:
         self._chat_id = chat_id
 
     def inform_no_session(self):
-        bot.send_message(self._chat_id, NoSessionText.INFORM_MESSAGE, reply_to_message_id=self._message_id)
+        try:
+            bot.edit_message_text(chat_id=self._chat_id, text=NoSessionText.INFORM_MESSAGE, message_id=self._message_id)
+        except ApiTelegramException as e:
+            print(e)

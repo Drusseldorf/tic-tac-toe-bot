@@ -1,7 +1,11 @@
+import random
+
 from data_base.db_engine import SessionLocal
-from data_base.tables import GameSession
+from data_base.tables import GameSession, LinkedUsers
 from uuid import uuid4
 from contextlib import contextmanager
+
+from game_utils.cells import Cell
 from game_utils.field import GameBoard
 from datetime import datetime, timedelta
 
@@ -18,17 +22,27 @@ class Session:
             db.close()
 
     @staticmethod
-    def new(user1_id: str, user1_chat_id: str, is_online: bool, user2_id: str | None = None, user2_chat_id: str | None = None) -> GameSession:
+    def new(user1_id: str, user1_chat_id: str, is_online: bool,
+            user2_id: str | None = None, user2_chat_id: str | None = None) -> GameSession:
         game_board = GameBoard.get_new_game_board()
         with Session._get_db_session() as db:
             session_id = str(uuid4())
+            if is_online:
+                cell1 = random.choice([Cell.CROSS, Cell.ZERO]).name
+                cell2 = Cell.CROSS.name if cell1 != Cell.CROSS.name else Cell.ZERO.name
+            else:
+                cell1 = None
+                cell2 = None
+
             game_session = GameSession(game_board=game_board,
                                        game_session=session_id,
                                        user_one_id=user1_id,
                                        user_one_chat_id=user1_chat_id,
                                        user_two_id=user2_id,
                                        user_two_chat_id=user2_chat_id,
-                                       is_online=is_online)
+                                       is_online=is_online,
+                                       user_one_cell=cell1,
+                                       user_two_cell=cell2)
             db.add(game_session)
             print(datetime.now(), 'create new session')
             return game_session
@@ -65,3 +79,19 @@ class Session:
                 print(f'deleting session with id: {session.game_session}')
                 db.delete(session)
             db.commit()
+
+    @staticmethod
+    def get_linked_users_session(user_id: str) -> LinkedUsers:
+        with Session._get_db_session() as db:
+            linked_users_session = db.query(LinkedUsers).filter(LinkedUsers.user_id == user_id).first()
+            print(datetime.now(), 'get_linked_users')
+            return linked_users_session
+
+    @staticmethod
+    def set_new_linked_user(linked_users: LinkedUsers, new_linked_user_id: str):
+        with Session._get_db_session() as db:
+            linked_users.linked_users_id += f'{new_linked_user_id} '
+            db.add(linked_users)
+            db.commit()
+            db.refresh(linked_users)
+            print(datetime.now(), 'set_new_linked_user')
