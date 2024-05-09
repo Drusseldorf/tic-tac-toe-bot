@@ -24,6 +24,6 @@ class LinkedUsers(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String, unique=True, index=True)
     linked_users_id = Column(String)
-
+    
 
 Base.metadata.create_all(bind=engine)

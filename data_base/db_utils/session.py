@@ -88,10 +88,19 @@ class Session:
             return linked_users_session
 
     @staticmethod
-    def set_new_linked_user(linked_users: LinkedUsers, new_linked_user_id: str):
+    def update_linked_users(session: LinkedUsers):
         with Session._get_db_session() as db:
-            linked_users.linked_users_id += f'{new_linked_user_id} '
-            db.add(linked_users)
+            db.add(session)
             db.commit()
-            db.refresh(linked_users)
-            print(datetime.now(), 'set_new_linked_user')
+            db.refresh(session)
+            print(datetime.now(), 'set_new_user fo linked users')
+
+    @staticmethod
+    def new_linked_users(user_id: str):
+        with Session._get_db_session() as db:
+            session = LinkedUsers(user_id=user_id)
+            db.add(session)
+            db.commit()
+            db.refresh(session)
+            print(datetime.now(), 'new_linked_user created')
+            return session

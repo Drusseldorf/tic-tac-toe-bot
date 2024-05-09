@@ -2,6 +2,9 @@ from bot_app import bot
 from bot_app.bot_utils.general_utils.game_session_controller import GameSessionController
 from bot_app.bot_utils.general_utils.render_field import RenderManager
 from bot_app.bot_utils.general_utils.move_handler import MoveHandler, MoveResult
+from bot_app.bot_utils.online_utils.common_utils import get_name
+from bot_app.bot_utils.online_utils.invite_new import InviteNew
+from config.text_templates.russian import InvitingById
 from data_base.db_utils.session import Session
 from bot_app.bot_utils.time_out_session_controller.check_timeout import expires_session_worker
 from bot_app.bot_utils.general_utils.no_session_handler import NoSessionHandler
@@ -26,6 +29,17 @@ def start_new_online_game_session(message):
     link_session_controller = Linkcontroller(message.from_user.id)
     invite = InitiateInvite(link_session_controller.get_session())
     invite.event_handle(message)
+
+
+@bot.message_handler(commands=['invite_new_user'])
+def invite_new_user(message):
+    InviteNew.provide_user_id_to_invite(message.chat.id)
+
+
+@bot.message_handler(func=lambda message: message.reply_to_message is not None)
+def reply_with_id(message):
+    if message.reply_to_message.from_user.id == bot.get_me().id:
+        InviteNew(message.from_user.id, message.text, get_name(message.from_user.id), message.chat.id).invite()
 
 
 @bot.callback_query_handler(func=lambda call: CallBack.INVT_FLAG.name in call.data)
@@ -62,6 +76,11 @@ def move_callback_handler(call):
     move = MoveHandler(pos_x, pos_y, call.from_user.id, game_session)
     if move.make_move() is MoveResult.SUCCESS:
         RenderManager(game_session).render()
+
+
+@bot.message_handler(commands=['my_id'])
+def get_my_user_id(message):
+    bot.send_message(message.chat.id, f'{InvitingById.INFO}{message.from_user.id}')
 
 
 if __name__ == '__main__':

@@ -9,10 +9,15 @@ from bot_app.bot_utils.online_utils.common_utils import get_name
 
 class InitiateInvite:
     def __init__(self, linked_users_session: LinkedUsers):
-        self._list_of_linked_users = linked_users_session.linked_users_id
+        self._linked_users_session = linked_users_session
 
     def _prepare_list_of_users_to_invite_as_markup(self, message):
-        list_of_linked_users = self._list_of_linked_users.split()
+
+        if not self._linked_users_session.linked_users_id:
+            return
+
+        list_of_linked_users = set(self._linked_users_session.linked_users_id.split())
+
         initiator_user_name = f'{message.from_user.first_name}'
         initiator_user_chat_id = message.chat.id
         buttons = []
@@ -34,12 +39,11 @@ class InitiateInvite:
     def _get_body(self, message, markup) -> dict:
         body = {
             'chat_id': message.chat.id,
-            'text': InviteEventText.CHOOSE_USER_MESSAGE,
-            'reply_markup': markup
+            'text': InviteEventText.NO_LINKED_USERS_YET
         }
-        if not self._list_of_linked_users:
-            del body['reply_markup']
-            body['text'] = InviteEventText.NO_LINKED_USERS_YET
+        if markup:
+            body['reply_markup'] = markup
+            body['text'] = InviteEventText.CHOOSE_USER_MESSAGE
         return body
 
     def event_handle(self, message):
