@@ -35,7 +35,7 @@ class InviteNew:
         bot.send_message(self._initiator_user_chat_id, InvitingById.UNKOWN_USER)
 
     def _trying_to_invite_himself(self):
-        return self._user_id_to_invite == self._initiator_user_id
+        return str(self._user_id_to_invite) == str(self._initiator_user_id)
 
     def invite(self):
         if self._trying_to_invite_himself():
