@@ -4,7 +4,7 @@ from bot_app.bot_utils.general_utils.render_field import RenderManager
 from bot_app.bot_utils.general_utils.move_handler import MoveHandler, MoveResult
 from bot_app.bot_utils.online_utils.common_utils import get_name
 from bot_app.bot_utils.online_utils.invite_new import InviteNew
-from config.text_templates.russian import InvitingById
+from config.text_templates.russian import InvitingById, Introducing
 from data_base.db_utils.session import Session
 from bot_app.bot_utils.time_out_session_controller.check_timeout import expires_session_worker
 from bot_app.bot_utils.general_utils.no_session_handler import NoSessionHandler
@@ -81,6 +81,11 @@ def move_callback_handler(call):
 @bot.message_handler(commands=['my_id'])
 def get_my_user_id(message):
     bot.send_message(message.chat.id, f'{InvitingById.INFO}{message.from_user.id}')
+
+
+@bot.message_handler(commands=['start', 'info'])
+def introduce_bot(message):
+    bot.send_message(message.chat.id, Introducing.MESSAGE)
 
 
 if __name__ == '__main__':

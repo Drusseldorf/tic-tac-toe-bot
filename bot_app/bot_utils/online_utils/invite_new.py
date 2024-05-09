@@ -34,8 +34,13 @@ class InviteNew:
     def _inviting_unkown_user(self):
         bot.send_message(self._initiator_user_chat_id, InvitingById.UNKOWN_USER)
 
+    def _trying_to_invite_himself(self):
+        return self._user_id_to_invite == self._initiator_user_id
+
     def invite(self):
-        if self._is_user_known_to_bot():
+        if self._trying_to_invite_himself():
+            bot.send_message(self._initiator_user_chat_id, InvitingById.INVITING_HIMSELF)
+        elif self._is_user_known_to_bot():
             InviteSender(self._user_id_to_invite, self._initiator_user_name, self._initiator_user_chat_id).event_handle()
             self._add_user_as_linked()
         else:
