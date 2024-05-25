@@ -2,12 +2,11 @@ from enum import Enum
 
 
 class CallBack(Enum):
-    MOVE_FLAG = 0
-    INVT_FLAG = 1
-    ANSWR_FLAG = 3
+    MOVE_FLAG = 'MOVE'
+    INVT_FLAG = 'INVT'
+    ANSWR_FLAG = 'ANSWR'
 
 
 class Answer(Enum):
-    AGREE = 0
-    DISAGREE = 1
-
+    AGREE = 'AGREE'
+    DISAGREE = 'DISAGREE'

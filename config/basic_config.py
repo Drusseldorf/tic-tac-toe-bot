@@ -18,17 +18,13 @@ class BotSettings(BaseModel):
     token: str
 
 
-class DBSettings(BaseModel):
-    url: str
-
-
 class DefaultCells(BaseModel):
     cross_emoji: str
     zero_emoji: str
     empty_emoji: str
 
 
-class VictoryConditions(Enum):
+class VictoryConditions(int, Enum):
     THREE_IN_A_ROW = 3
     FOUR_IN_A_ROW = 4
 
@@ -44,7 +40,6 @@ class GameSettings(BaseModel):
 class MainSettings(YamlBaseSettings):
     bot_settings: BotSettings
     game_settings: GameSettings
-    db_settings: DBSettings
 
     class Config:
         yaml_file = config_file

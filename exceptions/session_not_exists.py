@@ -1,2 +1,0 @@
-class SessionDoesntExist(Exception):
-    pass

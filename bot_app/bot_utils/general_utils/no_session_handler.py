@@ -1,7 +1,7 @@
 from telebot.apihelper import ApiTelegramException
-
+from logger.logger import log, Level
 from bot_app import bot
-from config.text_templates.russian import NoSessionText
+from config.text_templates.text_tamplate_obj import template
 
 
 class NoSessionHandler:
@@ -11,6 +11,6 @@ class NoSessionHandler:
 
     def inform_no_session(self):
         try:
-            bot.edit_message_text(chat_id=self._chat_id, text=NoSessionText.INFORM_MESSAGE, message_id=self._message_id)
+            bot.edit_message_text(chat_id=self._chat_id, text=template.NO_SESSION_TEXT.INFORM_MESSAGE, message_id=self._message_id)
         except ApiTelegramException as e:
-            print(e)
+            log.write(Level.ERROR, f'Message to Telegram API was unsuccessful: {e}')

@@ -1,11 +1,9 @@
 game_settings:
-  victory_condition: 4
-  game_board_default_size: 5
+  victory_condition: 3
+  game_board_default_size: 3
   session_expires_in: 3
   start_expires_session_worker_period: 180
   default_cells:
     cross_emoji: ❌
     zero_emoji: ⭕️
     empty_emoji: '         '
-db_settings:
-  url: sqlite:///./app.db

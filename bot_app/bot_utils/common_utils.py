@@ -1,6 +1,7 @@
 from telebot.apihelper import ApiTelegramException
 
 from bot_app import bot
+from data_base.tables import GameSession
 
 
 def get_name(user_id: str):
@@ -13,3 +14,5 @@ def get_name(user_id: str):
     return chat_info.first_name if chat_info.first_name else chat_info.username
 
 
+def number_of_chats(game_session: GameSession):
+    return 2 if game_session.is_online else 1
